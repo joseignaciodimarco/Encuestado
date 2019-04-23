@@ -64,7 +64,19 @@ Modelo.prototype = {
     this.guardar();
   },
 
-  sumarVoto: function(idPregunta, idRespuesta){
+  sumarVoto: function(pregunta, respuesta){
+    let _this = this;
+    let indice;
     //console.log('pregunta ->',  this.preguntas[id-1].cantidadPorRespuesta[0]);
+    for(let i = 0; i< this.preguntas.length; i++){
+      if(this.preguntas[i].textoPregunta === pregunta){
+        this.preguntas[i].cantidadPorRespuesta.map(function(opciones) {
+          if (opciones.textoRespuesta == respuesta) {
+            opciones.cantidadPorRespuesta++;
+            _this.guardar();
+          }
+        });
+      }
+    }
   }
 };

@@ -22,7 +22,7 @@ Controlador.prototype = {
    },
 
    agregarVoto: function(nombrePregunta,respuestaSeleccionada){
-    console.log('voy a agregar voto de' , nombrePregunta, respuestaSeleccionada);
+    this.modelo.sumarVoto(nombrePregunta, respuestaSeleccionada);
    }
 
 };
