@@ -22,6 +22,14 @@ Modelo.prototype = {
       }
   },
 
+  obtenerPreguntas: function() {
+    if (localStorage.getItem("preguntas") != null) {
+      return JSON.parse(localStorage.getItem("preguntas"));
+    } else {
+      return [];
+    }
+  },
+
   //se agrega una pregunta dado un nombre y sus respuestas
   agregarPregunta: function(nombre, respuestas) {
     var id = this.obtenerUltimoId();
