@@ -11,6 +11,18 @@ var VistaAdministrador = function(modelo, controlador, elementos) {
   this.modelo.preguntaAgregada.suscribir(function() {
     contexto.reconstruirLista();
   });
+ 
+  this.modelo.preguntaEliminada.suscribir(function() { 
+    contexto.reconstruirLista(); 
+  });
+
+  this.modelo.borraPreguntas.suscribir(function() { 
+    contexto.reconstruirLista(); 
+  });
+
+  this.modelo.editaPregunta.suscribir(function() { 
+    contexto.reconstruirLista(); 
+  });
 };
 
 
@@ -19,6 +31,8 @@ VistaAdministrador.prototype = {
   inicializar: function() {
     //llamar a los metodos para reconstruir la lista, configurar botones y validar formularios
     validacionDeFormulario();
+    this.reconstruirLista();
+    this.configuracionDeBotones();
   },
 
   construirElementoPregunta: function(pregunta){
@@ -26,9 +40,7 @@ VistaAdministrador.prototype = {
     var nuevoItem;
     //completar
     //asignar a nuevoitem un elemento li con clase "list-group-item", id "pregunta.id" y texto "pregunta.textoPregunta"
-
-   nuevoItem = $("<li class='list-group-item' id='"+pregunta.id+"'>"+pregunta.textoPregunta+"</li>");
-
+    nuevoItem = $("<li class='list-group-item' id='"+pregunta.id+"'>"+pregunta.textoPregunta+"</li>");
     var interiorItem = $('.d-flex');
     var titulo = interiorItem.find('h5');
     titulo.text(pregunta.textoPregunta);
@@ -58,12 +70,33 @@ VistaAdministrador.prototype = {
       var respuestas = [];
 
       $('[name="option[]"]').each(function() {
-        //completar
+        let respuesta = {
+          textoRespuesta: $(this).val(),
+          cantidad: 0
+        }
+        respuestas.push(respuesta);
       })
+      respuestas = respuestas.slice(0, -1);
       contexto.limpiarFormulario();
       contexto.controlador.agregarPregunta(value, respuestas);
     });
     //asociar el resto de los botones a eventos
+
+    e.botonBorrarPregunta.click(function(){
+      let id = parseInt($('.list-group-item.active').attr('id'));
+      contexto.controlador.borrarPregunta(id);
+    })
+
+    e.borrarTodo.click(function(){
+      contexto.controlador.borrarTodo();
+    });
+
+    e.botonEditarPregunta.click(function(){
+      let id = parseInt($('.list-group-item.active').attr('id'));
+      contexto.controlador.editarPregunta(id);
+
+    });
+
   },
 
   limpiarFormulario: function(){

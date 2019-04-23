@@ -11,6 +11,21 @@ var VistaUsuario = function(modelo, controlador, elementos) {
   this.modelo.preguntaAgregada.suscribir(function() {
     contexto.reconstruirLista();
   });
+
+
+  /*prueb*/
+  this.modelo.preguntaEliminada.suscribir(function() { 
+    contexto.reconstruirLista(); 
+  });
+
+  this.modelo.borraPreguntas.suscribir(function() { 
+    contexto.reconstruirLista(); 
+  });
+
+  this.modelo.editaPregunta.suscribir(function() { 
+    contexto.reconstruirLista(); 
+  }); 
+  /*prueb*/
 };
 
 VistaUsuario.prototype = {
