@@ -10,6 +10,7 @@ var Modelo = function() {
   this.preguntaEliminada = new Evento(this);
   this.borraPreguntas = new Evento(this);
   this.editaPregunta = new Evento(this);
+  this.sumaVoto = new Evento(this);
 };
 
 Modelo.prototype = {
@@ -64,19 +65,19 @@ Modelo.prototype = {
     this.guardar();
   },
 
-  sumarVoto: function(pregunta, respuesta){
-    let _this = this;
-    let indice;
-    //console.log('pregunta ->',  this.preguntas[id-1].cantidadPorRespuesta[0]);
-    for(let i = 0; i< this.preguntas.length; i++){
-      if(this.preguntas[i].textoPregunta === pregunta){
-        this.preguntas[i].cantidadPorRespuesta.map(function(opciones) {
-          if (opciones.textoRespuesta == respuesta) {
-            opciones.cantidadPorRespuesta++;
-            _this.guardar();
-          }
-        });
-      }
-    }
+  sumarVoto: function(textoPregunta, respuesta){
+      var indiceSumar;
+      this.preguntas.forEach(function(pregunta, index) {
+        if (pregunta.textoPregunta == textoPregunta) {
+          indiceSumar = index;
+        }
+      });
+      this.preguntas[indiceSumar].cantidadPorRespuesta.map(function(opciones) {
+        if (opciones.textoRespuesta == respuesta) {
+          opciones.cantidad++;
+        }
+      });
+      this.guardar();
+      this.sumaVoto.notificar();
   }
 };
